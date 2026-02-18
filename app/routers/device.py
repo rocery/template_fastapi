@@ -1,4 +1,7 @@
 from fastapi import APIRouter
+from fastapi.concurrency import run_in_threadpool
+from ..database.list_device_sensor_suhu_ruang import get_devices
+from ..database.list_data_sensor import get_data
 
 router = APIRouter(
     prefix="/devices",
@@ -6,5 +9,11 @@ router = APIRouter(
 )
 
 @router.get("/")
-async def read_devices():
-    return [{"device_id": "device1"}, {"device_id": "device2"}]
+async def list_devices():
+    devices = await run_in_threadpool(get_devices)
+    return {"devices": devices}
+
+@router.get("/data")
+async def list_data():
+    data = await run_in_threadpool(get_data)
+    return {"data": data}
