@@ -28,6 +28,10 @@ templates = Jinja2Templates(directory="templates")
 async def home(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
+@app.route("/template")
+async def home(request: Request):
+    return templates.TemplateResponse("test_template.html", {"request": request})
+
 @app.get("/test_setting")
 async def test_setting(request: Request):
     settings = get_settings()
